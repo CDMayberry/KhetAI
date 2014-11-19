@@ -6,7 +6,7 @@ Purpose: To handle each individual piece on the khet board
 class Piece {
 public:
 //Constructors
-	Piece();
+	Piece() {}
 	Piece(int own, char ico) {owner=own; icon=ico;}
 //Accessors
 

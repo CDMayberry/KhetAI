@@ -4,6 +4,7 @@ Purpose: To handle the interaction between player/player, player/ai, or ai/ai
 */
 
 #include "Board.h"
+#include "Player.h"
 
 class Player {};
 
@@ -21,4 +22,6 @@ private:
 	bool p1Turn;
 	bool noise;
 	Board* world;		//Board state, will hold all information on the pieces
+	Player* p1;
+	Player* p2;
 };
