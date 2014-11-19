@@ -1,9 +1,10 @@
+
+
 /*
 By: Caelan Mayberry
 Purpose: To handle the interaction between player/player, player/ai, or ai/ai
 */
 
-class Board {}; //Temp until actually classes are in.
 class Player {};
 class AI {};
 
@@ -21,5 +22,5 @@ private:
 	
 	bool currentPlayer;
 	bool noise;
-	Board world;		//Board state, will hold all information on the pieces
+	//Board world;		//Board state, will hold all information on the pieces
 };
