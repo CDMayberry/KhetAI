@@ -20,5 +20,5 @@ private:
 	bool isRunning;
 	bool p1Turn;
 	bool noise;
-	//Board world;		//Board state, will hold all information on the pieces
+	Board* world;		//Board state, will hold all information on the pieces
 };
