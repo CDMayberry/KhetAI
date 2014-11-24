@@ -9,9 +9,11 @@ GameMaster::~GameMaster() {
 
 }
 
-bool GameMaster::intialize(Player& p1, Player& p2, Board& b) { //Sets up game and sets it ready to run.
-	world = &b;			//I wonder...
-	isRunning = true;	//
+bool GameMaster::intialize(Player& player1, Player& player2, Board& b) { //Sets up game and sets it ready to run.
+	p1 = &player1;
+	p2 = &player2;
+	world = &b;			
+	isRunning = true;	//Game can begin now!
 	return true;
 }
 void GameMaster::run() { //Run the game

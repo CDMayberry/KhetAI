@@ -4,14 +4,14 @@ Purpose: To make a Khet game with AI!
 */
 
 /*
-	DIRECTX COMPATIBILITY:
-		Make sure board knows where all of the pieces are and each piece knows its X and Y location on the board,
-		Even if they aren't used.
+DIRECTX COMPATIBILITY:
+Make sure board knows where all of the pieces are and each piece knows its X and Y location on the board,
+Even if they aren't used.
 
-		All Pieces will become a derived class of Entity, a class from games 1, if we do convert,
-		and that should be able to handle drawing and screen location information.
+All Pieces will become a derived class of Entity, a class from games 1, if we do convert,
+and that should be able to handle drawing and screen location information.
 
-		Board will need to handle information changes and check for 'collisions' with the laser.
+Board will need to handle information changes and check for 'collisions' with the laser.
 */
 
 #include <iostream>
@@ -23,8 +23,13 @@ using std::endl;
 int main() {
 
 	GameMaster gm;
+	Board board;
+	Player p1;
+	Player p2;
 
-	//gm.intialize(p1,p2);
+	if(!gm.intialize(p1,p2, board))			//If it fails somehow to load
+		exit(1);							//Exit!
+
 	gm.run();
 
 	return 0;
