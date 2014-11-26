@@ -1,6 +1,6 @@
 //I want to note that more of this WAS written, but due to a 'getting used to GitHub' error, much of
 //it was tragically erased. MAR. :(
-
+/*
 #ifndef PLAYER_H
 #define PLAYER_H
 
@@ -93,3 +93,4 @@ public:
 };
 
 #endif
+*/

@@ -22,15 +22,13 @@ using std::endl;
 
 int main() {
 
-	GameMaster gm;
-	Board board;
-	Player p1;
-	Player p2;
+	//GameMaster gm;
+	//Board board;
+	//Player p1;
+	//Player p2;
 
-	if(!gm.intialize(p1,p2, board))			//If it fails somehow to load
-		exit(1);							//Exit!
-
-	gm.run();
+	Board test("1");
+	test.PrintBoard();
 
 	return 0;
 }
