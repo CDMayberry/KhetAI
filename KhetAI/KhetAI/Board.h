@@ -65,6 +65,8 @@ public:
 		}
 	}
 
+
+
 private:
 	//Array of pieces, going x by y
 	Piece* board[10][12];
