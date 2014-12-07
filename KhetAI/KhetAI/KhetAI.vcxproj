@@ -85,8 +85,16 @@
   <ItemGroup>
     <ClInclude Include="Board.h" />
     <ClInclude Include="GameMaster.h" />
+    <ClInclude Include="Header.h" />
+    <ClInclude Include="Impact.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="Player.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Paper.docx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

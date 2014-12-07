@@ -3,10 +3,8 @@ By: Caelan Mayberry
 Purpose: To handle the interaction between player/player, player/ai, or ai/ai
 */
 
-#include "Board.h"
 #include "Player.h"
-
-class Player {};
+#include "Board.h"
 
 class GameMaster {
 public:
