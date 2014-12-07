@@ -72,8 +72,11 @@ public:
 	//returns a version of the world after making a play
 	Board makePlay(Play p){
 			//apply the play to the board
+
 		//TODO
 	}
+	//Heuristic for ranking boards relatice to the passed player
+	float EvaluateBoard(int player);
 
 //Mutators
 	//Reads the data from a file 

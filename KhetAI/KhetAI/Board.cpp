@@ -262,3 +262,46 @@ vector<Play> Board::listAllPlays(int player){ //mmmmmm. nothing like quad-nested
 	return possiblePlays;
 }
 
+float Board::EvaluateBoard(int player) {
+	float value = 1;
+	//Basically a running sum
+	//Go through all the pieces, for each piece that is player owned, add to the running sum
+
+	Impact imp = TraceLaser(player);
+	//IMPORTANT AFTER THE TRACE LASER FUNCTION, DO THE SAME CODE FOR UPDATE BOARD TO THEN RUN THE HUERISTIC
+
+
+
+
+
+
+	//Scale value based on number of pieces you have
+	for(int i=0; i<10; i++){
+		for(int j=0; j<12; j++){
+
+			if(board[i][j]->getOwner() == player) {
+				switch (board[i][j]->getIcon()){
+					case King:			return 0;
+					case MirrorLD:			value *= 4; break;
+					case MirrorLU:			value *= 4; break;
+					case MirrorRU:			value *= 4; break;
+					case MirrorRD:			value *= 4; break;
+					default:	break;
+				}
+			}
+			//Check other guys things
+			//Your pieces are valued more, so 1 for 1 trades are not encouraged
+			else if(board[i][j]->getOwner() == 3 - player) {
+				switch (board[i][j]->getIcon()){
+					case King:				return 99999999999;	//Just like, return the best thing
+					case MirrorLD:			value /= 2; break;
+					case MirrorLU:			value /= 2; break;
+					case MirrorRU:			value /= 2; break;
+					case MirrorRD:			value /= 2; break;
+					default:	break;
+				}
+
+			}
+		}
+	}
+}
