@@ -29,6 +29,8 @@ int main() {
 
 	Board test("1");
 	test.PrintBoard();
-
+	Impact i;
+	cout << "X: " << i.getLoc().first << " Y: " << i.getLoc().second << " Direction: " << i.getDir();
+	system("pause");
 	return 0;
 }

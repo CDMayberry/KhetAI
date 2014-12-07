@@ -42,7 +42,8 @@ public:
 	void PrintBoard();
 	//Traces the laser of the given player and returns an impact object
 	Impact TraceLaser(int player);
-
+	//Heuristic for ranking boards relatice to the passed player
+	float EvaluateBoard(int player);
 //Mutators
 	//Reads the data from a file 
 	void readBoard(string f){
