@@ -70,7 +70,7 @@ public:
 	//returns a vector of possible plays for a given player
 	vector<Play> listAllPlays(int player);
 	//returns a version of the world after making a play
-	Board makePlay(Play p){
+	Board makePlay(Play p, int pTurn){
 			//apply the play to the board
 		//TODO
 	}
