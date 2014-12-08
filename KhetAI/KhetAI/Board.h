@@ -44,6 +44,15 @@ public:
 			turnDir = moveORturnDirection;
 		}
 	}
+	bool operator==(Play p){
+		if(xPosition == p.xPosition &&
+			yPosition == p.yPosition &&
+			(moveDir == p.moveDir || turnDir == p.turnDir) &&
+			playType == p.playType){
+			return true;
+		}
+		return false;
+	}
 	static enum play_type{MOVE, TURN};
 	static enum move_directions{UP, UP_RIGHT, RIGHT, RIGHT_DOWN, DOWN, DOWN_LEFT, LEFT, LEFT_UP};
 	static enum turn_directions{CLOCKWISE, COUNTERCLOCKWISE};
@@ -86,6 +95,10 @@ public:
 //Mutators
 	//Reads the data from a file 
 	void readBoard(string f){
+
+		ifstream fin;
+		ofstream fout;
+
 		filename = f;
 		fin.open(filename);
 
@@ -111,8 +124,6 @@ private:
 	//Array of pieces, going x by y
 	Piece* board[10][12];
 	string filename;
-	ifstream fin;
-	ofstream fout;
 };
 
 #endif
