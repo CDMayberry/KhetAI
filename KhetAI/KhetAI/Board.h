@@ -53,6 +53,19 @@ public:
 		}
 		return false;
 	}
+
+	bool operator==(int type) {
+		if(playType == type) {
+			return true;
+		}
+		return false;
+	}
+
+	int getX() {return xPosition;}
+	int getY() {return yPosition;}
+	int getTurn() {return turnDir;}
+	int getMove() {return moveDir;}
+
 	static enum play_type{MOVE, TURN};
 	static enum move_directions{UP, UP_RIGHT, RIGHT, RIGHT_DOWN, DOWN, DOWN_LEFT, LEFT, LEFT_UP};
 	static enum turn_directions{CLOCKWISE, COUNTERCLOCKWISE};
@@ -81,16 +94,92 @@ public:
 	//returns a version of the world after making a play
 	Board makePlay(Play p, int pTurn){
 			//apply the play to the board
-
-		//TODO
-	}
-	Board makePlay(Play p, int pTurn, bool test){
-			//apply the play to the board
-
+		Board temp = *this;
+		if(p == Play::MOVE) {
+			move(p);
+		}
+		else {
+			turn(p);
+		}
 		//TODO
 	}
 	//Heuristic for ranking boards relative to the passed player
 	float EvaluateBoard(int player);
+	//Piece* getBoard() {return board[10][12];}
+	void move(Play p) {
+		int y = p.getX();						//THESE ARE REVERSED ON PURPOSE JASH
+		int x = p.getY();						//THESE ARE REVERSED ON PURPOSE RAN
+		int move = p.getMove();
+
+		switch(move) {
+		case Play::UP:
+			board[x][y-1] = board[x][y];
+			break;
+		case Play::UP_RIGHT:
+			board[x+1][y-1] = board[x][y];
+			break;
+		case Play::RIGHT:
+			board[x+1][y] = board[x][y];
+			break;
+		case Play::RIGHT_DOWN:
+			board[x+1][y+1] = board[x][y];
+			break;
+		case Play::DOWN:
+			board[x][y+1] = board[x][y];
+			break;
+		case Play::DOWN_LEFT:
+			board[x-1][y+1] = board[x][y];
+			break;
+		case Play::LEFT:
+			board[x-1][y] = board[x][y];
+			break;
+		case Play::LEFT_UP:
+			board[x-1][y+1] = board[x][y];
+			break;
+		}
+		delete board[x][y];
+	}
+	void turn(Play p) {
+		int y = p.getX();						//THESE ARE REVERSED ON PURPOSE JASH
+		int x = p.getY();						//THESE ARE REVERSED ON PURPOSE RAN
+		int turn = p.getTurn();
+
+		switch(turn) {
+		case Play::CLOCKWISE:
+			switch(board[x][y]->getIcon()) {
+			case 217:
+				board[x][y]->setIcon(192);
+				break;
+			case 191:
+				board[x][y]->setIcon(217);
+				break;
+			case 218:
+				board[x][y]->setIcon(191);
+				break;
+			case 192:
+				board[x][y]->setIcon(218);
+				break;
+			}
+			break;
+
+		case Play::COUNTERCLOCKWISE:
+			switch(board[x][y]->getIcon()) {
+			case 217:
+				board[x][y]->setIcon(191);
+				break;
+			case 191:
+				board[x][y]->setIcon(218);
+				break;
+			case 218:
+				board[x][y]->setIcon(192);
+				break;
+			case 192:
+				board[x][y]->setIcon(217);
+				break;			
+			}
+			break;
+		}
+	}
 
 //Mutators
 	//Reads the data from a file 
