@@ -133,18 +133,23 @@ Impact Board::TraceLaser(int player) {
 
 	//Determines which direction the laser starts, based on player
 	//WARNING: THIS BAKES IN A LASER FACING BASED ON PLAYER, THE LASER ORIGIN SHOULD NOT CHANGE, BUT IF IT DOES, THIS BREAKS
-	if(player == 1)
+	//Player 1 is on top
+	if(player == 1) {
 		direction = DOWN;
-	else
+		xCoord++;
+	}
+	else {
 		direction = UP;
+		xCoord--;
+	}
 
 	while(!terminate) {
 		//Switch based on direction of the beam, so the coords can be updated
 		switch(direction) {
-			case UP:		yCoord--;	break;
-			case RIGHT:		xCoord++;	break;
-			case DOWN:		yCoord++;	break;
-			case LEFT:		xCoord--;	break;
+			case UP:		xCoord--;	break;
+			case RIGHT:		yCoord++;	break;
+			case DOWN:		xCoord++;	break;
+			case LEFT:		yCoord--;	break;
 			default:					break;
 		}
 		//Updates direction -or- returns based on where laser is looking at
@@ -153,7 +158,7 @@ Impact Board::TraceLaser(int player) {
 			case Wall:			return Impact(pair<int,int>(xCoord,yCoord),direction);
 			case Laser:			return Impact(pair<int,int>(xCoord,yCoord),direction);
 			case Blocker:		return Impact(pair<int,int>(xCoord,yCoord),direction);
-			case King:			return Impact(pair<int,int>(xCoord,yCoord),direction); //OooOoOOooooooOOoOoOOO
+			case King:			return Impact(pair<int,int>(xCoord,yCoord),direction); //OooOoOOooooooOOoOoOOO Ger Rekt
 			case MirrorLD:		
 				switch (direction){
 					case UP:		direction = LEFT; break;
@@ -162,6 +167,7 @@ Impact Board::TraceLaser(int player) {
 					case LEFT:		return Impact(pair<int,int>(xCoord,yCoord),direction);
 					default:	break;
 				}
+				break;
 			case MirrorLU:
 				switch (direction){
 					case UP:		return Impact(pair<int,int>(xCoord,yCoord),direction);
@@ -170,6 +176,7 @@ Impact Board::TraceLaser(int player) {
 					case LEFT:		return Impact(pair<int,int>(xCoord,yCoord),direction);
 					default:	break;
 				}
+				break;
 			case MirrorRU:
 				switch (direction){
 					case UP:		return Impact(pair<int,int>(xCoord,yCoord),direction);
@@ -178,6 +185,7 @@ Impact Board::TraceLaser(int player) {
 					case LEFT:		direction = UP; break;
 					default:	break;
 				}
+				break;
 			case MirrorRD:
 				switch (direction){
 					case UP:		direction = RIGHT; break;
@@ -186,6 +194,7 @@ Impact Board::TraceLaser(int player) {
 					case LEFT:		direction = DOWN; break;
 					default:	break;
 				}	
+				break;
 			case DMirrorFSlash: //		[/]
 				switch (direction){
 					case UP:		direction = RIGHT; break;
@@ -194,6 +203,7 @@ Impact Board::TraceLaser(int player) {
 					case LEFT:		direction = DOWN; break;
 					default:	break;
 				}
+				break;
 			case DMirrorBSlash: //		[\]
 				switch (direction){
 					case UP:		direction = LEFT; break;
@@ -206,9 +216,7 @@ Impact Board::TraceLaser(int player) {
 		}
 
 	}
-	
 }
-
 vector<Play> Board::listAllPlays(int player){ //mmmmmm. nothing like quad-nested for loops. :)
 	player++; //to make it match with the way it works in board
 		//find all plays that can be made by a player
