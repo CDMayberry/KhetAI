@@ -69,18 +69,18 @@ Board::Board(string file) {
 		for(int j=0; j<12; j++){
 			fin >> temp;
 			switch(temp) {
-				case '_': board[i][j] = new Piece(0,(char)Empty);				break;
-				case 'W': board[i][j] = new Piece(0,(char)Wall);				break;
-				case 'L': board[i][j] = new Piece(0,(char)Laser);				break;
-				case 'B': board[i][j] = new Piece(0,(char)Blocker);				break;
-				case 'K': board[i][j] = new Piece(0,(char)King);				break;
-				case '1': board[i][j] = new Piece(0,(char)MirrorLD);			break;
-				case '2': board[i][j] = new Piece(0,(char)MirrorLU);			break;
-				case '3': board[i][j] = new Piece(0,(char)MirrorRU);			break;
-				case '4': board[i][j] = new Piece(0,(char)MirrorRD);			break;
-				case '5': board[i][j] = new Piece(0,(char)DMirrorFSlash);		break;
-				case '6': board[i][j] = new Piece(0,(char)DMirrorBSlash);		break;
-				default:														break;
+				case '_': board[i][j] = new Piece(0,Empty);				break;
+				case 'W': board[i][j] = new Piece(0,Wall);				break;
+				case 'L': board[i][j] = new Piece(0,Laser);				break;
+				case 'B': board[i][j] = new Piece(0,Blocker);			break;
+				case 'K': board[i][j] = new Piece(0,King);				break;
+				case '1': board[i][j] = new Piece(0,MirrorLD);			break;
+				case '2': board[i][j] = new Piece(0,MirrorLU);			break;
+				case '3': board[i][j] = new Piece(0,MirrorRU);			break;
+				case '4': board[i][j] = new Piece(0,MirrorRD);			break;
+				case '5': board[i][j] = new Piece(0,DMirrorFSlash);		break;
+				case '6': board[i][j] = new Piece(0,DMirrorBSlash);		break;
+				default:												break;
 
 			}
 		}
@@ -100,10 +100,13 @@ Board::Board(string file) {
 void Board::PrintBoard() {
 	for(int i=0; i<10; i++){
 		for(int j=0; j<12; j++){
-			if(board[i][j]->getOwner() == 0)		SetColor(7);
-			else if(board[i][j]->getOwner() == 1)	SetColor(11);
-			else									SetColor(10);
-			cout << board[i][j]->getIcon() << " ";
+			if(board[i][j]->getOwner() == 0)		
+				SetColor(7);
+			else if(board[i][j]->getOwner() == 1)	
+				SetColor(11);
+			else									
+				SetColor(10);
+			cout << (char)board[i][j]->getIcon() << " ";
 			SetColor(15);
 		}
 		cout << endl << endl;
