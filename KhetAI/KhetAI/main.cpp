@@ -21,14 +21,30 @@ using std::cout;
 using std::endl;
 
 int main() {
+	char input;
+	GameMaster gm(true);
+    Board board("1");
 
-	//GameMaster gm;
-	//Board board;
-	//Player p1;
-	//Player p2;
+	Player* p1;
+	Player* p2;
 
-	Board test("1");
-	test.PrintBoard();
+	cout << "Is Player 1 a human? ";
+	cin.get(input);
+	if(input == 'y' || 'Y')
+		p1 = new Human(&board, true);
+	else
+		p1 = new Agent(&board, true);
+	cout << "Is Player 2 a human? ";
+	cin.get(input);
+	if(input == 'y' || 'Y')
+		p2 = new Human(&board, false);
+	else
+		p2 = new Agent(&board, false);
+	
+	system("cls");
+	gm.intialize(*p1, *p2, board);
+	gm.run();
+
 
 	system("pause");
 	return 0;
