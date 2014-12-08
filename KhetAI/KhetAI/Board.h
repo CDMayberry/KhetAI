@@ -96,12 +96,14 @@ public:
 			//apply the play to the board
 		Board temp = *this;
 		if(p == Play::MOVE) {
-			move(p);
+			temp.move(p);
 		}
 		else {
-			turn(p);
+			temp.turn(p);
 		}
 		//TODO
+		temp.TraceLaser(pTurn);
+		return temp;
 	}
 	//Heuristic for ranking boards relative to the passed player
 	float EvaluateBoard(int player);
@@ -113,31 +115,39 @@ public:
 
 		switch(move) {
 		case Play::UP:
-			board[x][y-1] = board[x][y];
+			delete board[x-1][y];
+			board[x-1][y] = board[x][y];
 			break;
 		case Play::UP_RIGHT:
-			board[x+1][y-1] = board[x][y];
+			delete board[x-1][y+1];
+			board[x-1][y+1] = board[x][y];
 			break;
 		case Play::RIGHT:
-			board[x+1][y] = board[x][y];
+			delete board[x][y+1];
+			board[x][y+1] = board[x][y];
 			break;
 		case Play::RIGHT_DOWN:
+			delete board[x+1][y+1];
 			board[x+1][y+1] = board[x][y];
 			break;
 		case Play::DOWN:
-			board[x][y+1] = board[x][y];
+			delete board[x+1][y];
+			board[x+1][y] = board[x][y];
 			break;
 		case Play::DOWN_LEFT:
-			board[x-1][y+1] = board[x][y];
+			delete board[x+1][y-1];
+			board[x+1][y-1] = board[x][y];
 			break;
 		case Play::LEFT:
-			board[x-1][y] = board[x][y];
+			delete board[x][y-1];
+			board[x][y-1] = board[x][y];
 			break;
 		case Play::LEFT_UP:
-			board[x-1][y+1] = board[x][y];
+			delete board[x+1][y-1];
+			board[x+1][y-1] = board[x][y];
 			break;
 		}
-		delete board[x][y];
+		board[x][y] = new Piece(0, 206);
 	}
 	void turn(Play p) {
 		int y = p.getX();						//THESE ARE REVERSED ON PURPOSE JASH

@@ -130,6 +130,7 @@ Impact Board::TraceLaser(int player) {
 			if(board[i][j]->getIcon() == Laser && board[i][j]->getOwner() == player) {
 				xCoord = i;
 				yCoord = j;
+				break;
 			}
 		}
 	}

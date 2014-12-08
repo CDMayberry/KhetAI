@@ -36,12 +36,12 @@ void GameMaster::run() { //Run the game
 
 		if(p1Turn) {		
 			Play* temp = p1->getNextPlay();					//Gets player choice
-			*world = world->makePlay(*temp, 1);				//Updates world with player choice
+			*world = world->makePlay(*temp, 0);				//Updates world with player choice
 			p1Turn = false;									//Switch turns
 		}
 		else {
 			Play* temp = p2->getNextPlay();					//Gets player choice
-			*world = world->makePlay(*temp, 2);				//Updates world with player choice
+			*world = world->makePlay(*temp, 1);				//Updates world with player choice
 			p1Turn = true;									//Switch turns
 			x++;											//End of round, test only.
 		}
