@@ -75,7 +75,12 @@ public:
 
 		//TODO
 	}
-	//Heuristic for ranking boards relatice to the passed player
+	Board makePlay(Play p, int pTurn, bool test){
+			//apply the play to the board
+
+		//TODO
+	}
+	//Heuristic for ranking boards relative to the passed player
 	float EvaluateBoard(int player);
 
 //Mutators
