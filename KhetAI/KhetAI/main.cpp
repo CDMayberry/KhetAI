@@ -34,13 +34,18 @@ int main() {
 		p1 = new Human(&board, true);
 	else
 		p1 = new Agent(&board, true);
+	cin.get();
+	cin.ignore();
+	cin.clear();
 	cout << "Is Player 2 a human? ";
 	cin.get(input);
 	if(input == 'y' || 'Y')
 		p2 = new Human(&board, false);
 	else
 		p2 = new Agent(&board, false);
-	
+	cin.get();
+	cin.ignore();
+	cin.clear();	
 	system("cls");
 	gm.intialize(*p1, *p2, board);
 	gm.run();
