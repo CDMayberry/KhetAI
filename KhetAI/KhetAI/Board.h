@@ -163,7 +163,7 @@ public:
 	}
 	void turn(Play p) {
 		int y = p.getX();						//THESE ARE REVERSED ON PURPOSE JASH
-		int x = p.getY();						//THESE ARE REVERSED ON PURPOSE RAN
+		int x = p.getY();						//THESE ARE REVERSED ON PURPOSE RAN      //...but it doent werk
 		int turn = p.getTurn();
 
 		switch(turn) {
@@ -214,15 +214,15 @@ public:
 		fin.open(filename);
 
 		char tempChar;
-		for(int i=0; i<10; i++){
-			for(int j=0; j<12; j++){
+		for(int i=0; i<12; i++){
+			for(int j=0; j<10; j++){
 				fin >> tempChar;
 				board[i][j]->setIcon(tempChar);
 			}
 		}
 		int tempInt;
-		for(int i=0; i<10; i++){
-			for(int j=0; j<12; j++){
+		for(int i=0; i<12; i++){
+			for(int j=0; j<10; j++){
 				fin >> tempInt;
 				board[i][j]->setOwner(tempInt);
 			}
@@ -233,7 +233,7 @@ public:
 
 private:
 	//Array of pieces, going x by y
-	Piece* board[10][12];
+	Piece* board[12][10];
 	string filename;
 };
 

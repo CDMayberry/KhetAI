@@ -32,16 +32,20 @@ void GameMaster::run() { //Run the game
 	int x = 0;
 	while(isRunning) {
 
+		system("cls");
 		world->PrintBoard();
 
 		if(p1Turn) {		
 			Play* temp = p1->getNextPlay();					//Gets player choice
 			*world = world->makePlay(*temp, 1);				//Updates world with player choice
+			cout << "Player one took a turn." << endl;
 			p1Turn = false;									//Switch turns
+			
 		}
 		else {
 			Play* temp = p2->getNextPlay();					//Gets player choice
 			*world = world->makePlay(*temp, 2);				//Updates world with player choice
+			cout << "Player two took a turn." << endl;
 			p1Turn = true;									//Switch turns
 			x++;											//End of round, test only.
 		}

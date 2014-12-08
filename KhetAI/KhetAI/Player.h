@@ -7,7 +7,7 @@ using namespace std;
 
 #include "Board.h"
 
-const int HORIZON = 5;
+const int HORIZON = 2;
 
 class Player{
 public:
@@ -96,16 +96,17 @@ protected:
 		friend class Agent;
 		AgentTree(int c, Board* b){
 			Play* play = new Play(-1, -1, 0, 0); //the root gets a blank play because it is unimportant
-			root = new TreeNode(*b, *play, nullptr); //this is where the root is initialized
+			root = new TreeNode(*b, *play, nullptr, c); //this is where the root is initialized
 			color = c;
 		}
 		class TreeNode{
 			friend class AgentTree;
 		public:
-			TreeNode(Board world, Play play, TreeNode* p){
+			TreeNode(Board world, Play play, TreeNode* p, int c){
 				thisWorld = world;
 				thisPlay = play;
 				parent = p;
+				color = c;
 				if(parent == nullptr){ //checks if it's the root
 					ab = 1; //beta, because this is a max tier (the root)
 					depth = 0;
@@ -117,7 +118,7 @@ protected:
 			}
 			float getHeuristicValue(){
 				//return the world's heuristic value from thisWorld
-				return 0;
+				return thisWorld.EvaluateBoard(color+1);
 			}
 			float expand(TreeNode* p){ //the work happens here.
 				//generate the entire min-max play tree all the way down to the horizon to acquire alpha valued
@@ -126,11 +127,13 @@ protected:
 				//generate a list of all possible plays and use that to make all the new worlds
 				if(depth < HORIZON){
 					vector<Play> possiblePlays = thisWorld.listAllPlays(color);
-					TreeNode firstNode(thisWorld.makePlay(possiblePlays[0], color), possiblePlays[0], this);
+					TreeNode firstNode(thisWorld.makePlay(possiblePlays[0], color+1), possiblePlays[0], this, color);
 					alphabeta = firstNode.getHeuristicValue();
 					for(size_t i=0; i<possiblePlays.size(); i++){ //for each play
-						Board newWorld = thisWorld.makePlay(possiblePlays[i], color);
-						TreeNode* newNode = new TreeNode(newWorld, possiblePlays[i], this);
+						Board newWorld = thisWorld.makePlay(possiblePlays[i], color+1);
+						newWorld.PrintBoard();
+						system("pause");
+						TreeNode* newNode = new TreeNode(newWorld, possiblePlays[i], this, color);
 						children.push_back(newNode);
 							//this is the pruning part. Stops expanding a node if it would never be chosen optimally
 						if(ab == 1 && parent != nullptr && parent->parent != nullptr){ //if this node is < a value on the parent's level, then return it and quit expanding this branch
@@ -178,7 +181,7 @@ protected:
 		Play* miniMax(){ //these are the three functions we can use to pick new plays
 				//DFS down, generating a play and board for each world
 				//do not evaluate prunable branches
-			root->expand(root);
+			root->expand(nullptr);
 				//select the Play that generates a world with the highest value from among the immediate children of the root.
 			float bestHeuristic = 0;
 			int bestHeuristicIndex = 0;
@@ -204,7 +207,7 @@ protected:
 public:
 	Agent(){}
 	Agent(Board* board, bool first): Player(board){
-		tree = new AgentTree(first, board);
+		tree = new AgentTree(((first)?0:1), board);
 	}
 	Play* getNextPlay(){
 		return tree->miniMax();

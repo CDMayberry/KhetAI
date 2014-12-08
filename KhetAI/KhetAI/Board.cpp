@@ -53,8 +53,8 @@ enum direction {
 };
 
 Board::Board() {
-	for(int i=0; i<10; i++){
-		for(int j=0; j<12; j++){
+	for(int i=0; i<12; i++){
+		for(int j=0; j<10; j++){
 			board[i][j] = new Piece();
 		}
 	}
@@ -65,8 +65,8 @@ Board::Board(string file) {
 	char temp;
 	fin.open(file + ".txt");
 
-	for(int i=0; i<10; i++){
-		for(int j=0; j<12; j++){
+	for(int j=0; j<10; j++){
+		for(int i=0; i<12; i++){
 			fin >> temp;
 			switch(temp) {
 				case '_': board[i][j] = new Piece(0,Empty);				break;
@@ -84,22 +84,22 @@ Board::Board(string file) {
 
 			}
 		}
-		fin.get();
+		//fin.get();
 	}
 
-	for(int i=0; i<10; i++){
-		for(int j=0; j<12; j++){
+	for(int j=0; j<10; j++){
+		for(int i=0; i<12; i++){
 			fin >> temp;
 			board[i][j]->setOwner((int)temp - 48);
 		}
-		fin.get();
+		//fin.get();
 	}
 }
 
 //Outputs the screen to the console
 void Board::PrintBoard() {
-	for(int i=0; i<10; i++){
-		for(int j=0; j<12; j++){
+	for(int j=0; j<10; j++){
+		for(int i=0; i<12; i++){
 			if(board[i][j]->getOwner() == 0)		
 				SetColor(7);
 			else if(board[i][j]->getOwner() == 1)	
@@ -125,8 +125,8 @@ Impact Board::TraceLaser(int player) {
 
 	//Search for the laser origin so the coords can be updated
 	//MODULAR
-	for(int i=0; i<10; i++){
-		for(int j=0; j<12; j++){
+	for(int i=0; i<12; i++){
+		for(int j=0; j<10; j++){
 			if(board[i][j]->getIcon() == Laser && board[i][j]->getOwner() == player) {
 				xCoord = i;
 				yCoord = j;
@@ -225,10 +225,10 @@ vector<Play> Board::listAllPlays(int player){ //mmmmmm. nothing like quad-nested
 	player++; //to make it match with the way it works in board
 		//find all plays that can be made by a player
 	vector<Play> possiblePlays;
-	for(int j=0; j<12; j++){ //x
-		for(int i=0; i<10; i++){ //y
+	for(int i=0; i<10; i++){ //x
+		for(int j=0; j<12; j++){ //y
 				// if it's the correct player
-			if(board[i][j]->getOwner() == player){
+			if(board[i][j]->getOwner() == player && board[i][j]->getIcon() != Laser){
 					//make a play for both rotation options
 				possiblePlays.push_back(Play(i, j, 1, Play::CLOCKWISE));
 				possiblePlays.push_back(Play(i, j, 1, Play::COUNTERCLOCKWISE));
