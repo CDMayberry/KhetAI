@@ -81,7 +81,7 @@ public:
 					cin >> moveOrRoteNum;
 				}while(!isNumber(moveOrRoteNum) || (stoi(moveOrRoteNum) < 0 && stoi(moveOrRoteNum) >= 8));
 			}
-			*newPlay = Play(stoi(xCoord), stoi(yCoord), stoi(playType), stoi(moveOrRoteNum));
+			*newPlay = Play(stoi(yCoord), stoi(xCoord), stoi(playType), stoi(moveOrRoteNum));
 		}while(!isValidPlay(newPlay));
 
 		return newPlay;
@@ -131,8 +131,8 @@ protected:
 					alphabeta = firstNode.getHeuristicValue();
 					for(size_t i=0; i<possiblePlays.size(); i++){ //for each play
 						Board newWorld = thisWorld.makePlay(possiblePlays[i], color+1);
-						newWorld.PrintBoard();
-						system("pause");
+						//newWorld.PrintBoard();
+						//system("pause");
 						TreeNode* newNode = new TreeNode(newWorld, possiblePlays[i], this, color);
 						children.push_back(newNode);
 							//this is the pruning part. Stops expanding a node if it would never be chosen optimally

@@ -31,20 +31,6 @@ void SetColor(int ForgC)
      return;
 }
 
-enum icon {
-	Empty=176,
-	Wall=219,
-	Laser=206,
-	King=15,
-	Blocker=30,
-	MirrorLU=217,		//CONVENTION: THE TWO DIRECTION LETTERS INDICATE WHICH SIDE REFLECTS LASER
-	MirrorLD=191,
-	MirrorRU=192,
-	MirrorRD=218,
-	DMirrorFSlash=47,	/*	MIRROR LOOKA LIKA DIS:		 /					*/
-	DMirrorBSlash=92,	/*	MIRROR LOOKA LIKA DIS:		 \					*/
-};
-
 enum direction {
 	UP,
 	RIGHT,

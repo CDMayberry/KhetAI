@@ -29,6 +29,20 @@ enum Move {
 	MoveUpLeft,
 };
 
+enum icon {
+	Empty=176,
+	Wall=219,
+	Laser=206,
+	King=15,
+	Blocker=30,
+	MirrorLU=217,		//CONVENTION: THE TWO DIRECTION LETTERS INDICATE WHICH SIDE REFLECTS LASER
+	MirrorLD=191,
+	MirrorRU=192,
+	MirrorRD=218,
+	DMirrorFSlash=47,	/*	MIRROR LOOKA LIKA DIS:		 /					*/
+	DMirrorBSlash=92,	/*	MIRROR LOOKA LIKA DIS:		 \					*/
+};
+
 class Play{
 public:
 	Play(){
@@ -111,52 +125,52 @@ public:
 	//Piece* getBoard() {return board[10][12];}
 
 	void killer(Impact kill) {
-		int x = kill.getLoc().second;
-		int y = kill.getLoc().first;
+		int x = kill.getLoc().first;
+		int y = kill.getLoc().second;
 
-		if(*board[y][x] == 217 || *board[y][x] == 191 || *board[y][x] == 192 || *board[y][x] == 218) {
-			delete board[y][x];
-			board[y][x] = new Piece(0, 176);
+		if(board[x][y]->getIcon() != Wall && board[x][y]->getIcon() != Blocker && board[x][y]->getIcon() != Laser) {
+			delete board[x][y];
+			board[x][y] = new Piece(0, Empty);
 		}
 	}
 
 	void move(Play p) {
-		int y = p.getX();						//THESE ARE REVERSED ON PURPOSE JASH
-		int x = p.getY();						//THESE ARE REVERSED ON PURPOSE RAN
+		int x = p.getX();						//nope
+		int y = p.getY();						
 		int move = p.getMove();
 
 		switch(move) {
 		case Play::UP:
-			delete board[x-1][y];
-			board[x-1][y] = board[x][y];
-			break;
-		case Play::UP_RIGHT:
-			delete board[x-1][y+1];
-			board[x-1][y+1] = board[x][y];
-			break;
-		case Play::RIGHT:
-			delete board[x][y+1];
-			board[x][y+1] = board[x][y];
-			break;
-		case Play::RIGHT_DOWN:
-			delete board[x+1][y+1];
-			board[x+1][y+1] = board[x][y];
-			break;
-		case Play::DOWN:
-			delete board[x+1][y];
-			board[x+1][y] = board[x][y];
-			break;
-		case Play::DOWN_LEFT:
-			delete board[x+1][y-1];
-			board[x+1][y-1] = board[x][y];
-			break;
-		case Play::LEFT:
 			delete board[x][y-1];
 			board[x][y-1] = board[x][y];
 			break;
-		case Play::LEFT_UP:
+		case Play::UP_RIGHT:
+			delete board[x+1][y+1];
+			board[x+1][y+1] = board[x][y];
+			break;
+		case Play::RIGHT:
+			delete board[x+1][y];
+			board[x+1][y] = board[x][y];
+			break;
+		case Play::RIGHT_DOWN:
 			delete board[x+1][y-1];
 			board[x+1][y-1] = board[x][y];
+			break;
+		case Play::DOWN:
+			delete board[x][y-1];
+			board[x][y-1] = board[x][y];
+			break;
+		case Play::DOWN_LEFT:
+			delete board[x-1][y-1];
+			board[x-1][y-1] = board[x][y];
+			break;
+		case Play::LEFT:
+			delete board[x-1][y];
+			board[x-1][y] = board[x][y];
+			break;
+		case Play::LEFT_UP:
+			delete board[x-1][y+1];
+			board[x-1][y+1] = board[x][y];
 			break;
 		}
 		board[x][y] = new Piece(0, 176);
@@ -202,34 +216,6 @@ public:
 			break;
 		}
 	}
-
-//Mutators
-	//Reads the data from a file 
-	void readBoard(string f){
-
-		ifstream fin;
-		ofstream fout;
-
-		filename = f;
-		fin.open(filename);
-
-		char tempChar;
-		for(int i=0; i<12; i++){
-			for(int j=0; j<10; j++){
-				fin >> tempChar;
-				board[i][j]->setIcon(tempChar);
-			}
-		}
-		int tempInt;
-		for(int i=0; i<12; i++){
-			for(int j=0; j<10; j++){
-				fin >> tempInt;
-				board[i][j]->setOwner(tempInt);
-			}
-		}
-	}
-
-
 
 private:
 	//Array of pieces, going x by y
