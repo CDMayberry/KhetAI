@@ -236,8 +236,8 @@ vector<Play> Board::listAllPlays(int player){ //mmmmmm. nothing like quad-nested
 				for(int k=-1; k<=1; k++){
 					for(int l=-1; l<=1; l++){
 						if(k != 0 && l != 0 && //if the desired move location isn't where the piece already is
-							i+k>0 && i+k<12 && //and it's within bounds
-							j+l>0 && j+l<10){
+							i+k>0 && i+k<10 && //and it's within bounds
+							j+l>0 && j+l<12){
 							if(board[i+k][j+l]->getIcon() == Empty){ //and it's empty
 									//these are all the different directions
 								if(k == 0 && l == 1){ //up
