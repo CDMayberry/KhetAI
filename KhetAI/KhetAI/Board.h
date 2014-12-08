@@ -101,13 +101,25 @@ public:
 		else {
 			temp.turn(p);
 		}
-		//TODO
-		temp.TraceLaser(pTurn);
+		
+		Impact kill = temp.TraceLaser(pTurn);
+		temp.killer(kill);
 		return temp;
 	}
 	//Heuristic for ranking boards relative to the passed player
 	float EvaluateBoard(int player);
 	//Piece* getBoard() {return board[10][12];}
+
+	void killer(Impact kill) {
+		int x = kill.getLoc().second;
+		int y = kill.getLoc().first;
+
+		if(*board[y][x] == 217 || *board[y][x] == 191 || *board[y][x] == 192 || *board[y][x] == 218) {
+			delete board[y][x];
+			board[y][x] = new Piece(0, 176);
+		}
+	}
+
 	void move(Play p) {
 		int y = p.getX();						//THESE ARE REVERSED ON PURPOSE JASH
 		int x = p.getY();						//THESE ARE REVERSED ON PURPOSE RAN
@@ -147,7 +159,7 @@ public:
 			board[x+1][y-1] = board[x][y];
 			break;
 		}
-		board[x][y] = new Piece(0, 206);
+		board[x][y] = new Piece(0, 176);
 	}
 	void turn(Play p) {
 		int y = p.getX();						//THESE ARE REVERSED ON PURPOSE JASH

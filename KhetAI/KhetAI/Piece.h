@@ -23,6 +23,12 @@ public:
 	//Sets the owner of the piece
 	void setOwner(int own) {owner=own;}
 
+	bool operator==(int icon) {
+		if(icon == getIcon())
+			return true;
+		return false;
+	}
+
 private:
 	//Owner of the piece, 0 for no one, 1 or 2 corresponding to player
 	int owner;

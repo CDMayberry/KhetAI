@@ -79,7 +79,7 @@ public:
 				do{
 					cout << "Please enter the direction (0 for up, 1 for up-right, 2 for right, ..., 7 for left-up):" << endl;
 					cin >> moveOrRoteNum;
-				}while(!isNumber(moveOrRoteNum) || stoi(moveOrRoteNum) > 0 || stoi(moveOrRoteNum) <= 8);
+				}while(!isNumber(moveOrRoteNum) || (stoi(moveOrRoteNum) < 0 && stoi(moveOrRoteNum) >= 8));
 			}
 			*newPlay = Play(stoi(xCoord), stoi(yCoord), stoi(playType), stoi(moveOrRoteNum));
 		}while(!isValidPlay(newPlay));
