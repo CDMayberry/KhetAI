@@ -21,13 +21,72 @@ protected:
 class Human: public Player{
 public:
 	Human(){}
-	Human(Board* board): Player(board){
+	Human(Board* board, bool first): Player(board), first(first){
 			
 	}
+		//this function gets valid play inputs from a human player via the console. 
 	Play* getNextPlay(){
-		//I wrote this out completely before, but do not have time now. It just gets inputs from the player and
-		//makes them into a play object which it then returns.
+
+		auto isNumber = [=](string s)->bool{
+			for(int i=0; i<s.size(); i++){
+				if(!isdigit(s[i])){
+					return false;
+				}
+			}
+			return true;
+		};
+
+		auto isValidPlay = [=](Play* p)->bool{
+			vector<Play> pList = gameBoard->listAllPlays(first);
+			for(int i=0; i<pList.size(); i++){
+				if(*p == pList[i]){
+					return true;
+				}
+			}
+			return true;
+		};
+
+		string xCoord;
+		string yCoord;
+		string playType;
+		string moveOrRoteNum;
+
+		Play* newPlay = new Play(-1, -1, 0, 0);
+
+		do{
+				//get each component of a play
+			cout << "Player " << ((first)?"one":"two") << "'s turn." << endl;
+			do{
+				cout << "Please enter the x-coord of your piece:" << endl;
+				cin >> xCoord;
+			}while(!isNumber(xCoord) || stoi(xCoord) < 0 || stoi(xCoord) >= 12);
+			do{
+				cout << "Please enter the y-coord of your piece:" << endl;
+				cin >> yCoord;
+			}while(!isNumber(yCoord) || stoi(yCoord) < 0 || stoi(yCoord) >= 10);
+			do{
+				cout << "Please enter your play type (0 for move, 1 for rotate):" << endl;
+				cin >> playType;
+			}while(!isNumber(playType) || stoi(playType) != 0 || stoi(playType) != 1);
+			if(stoi(playType) == 0){
+				do{
+					cout << "Please enter the direction (0 for CW, 1 for CCW):" << endl;
+					cin >> moveOrRoteNum;
+				}while(!isNumber(moveOrRoteNum) || stoi(moveOrRoteNum) != 0 || stoi(moveOrRoteNum) != 1);
+			}else if(stoi(playType) == 1){
+				do{
+					cout << "Please enter the direction (0 for up, 1 for up-right, 2 for right, ..., 7 for left-up):" << endl;
+					cin >> moveOrRoteNum;
+				}while(!isNumber(moveOrRoteNum) || stoi(moveOrRoteNum) != 0 || stoi(moveOrRoteNum) != 1);
+			}
+			*newPlay = Play(stoi(xCoord), stoi(yCoord), stoi(playType), stoi(moveOrRoteNum));
+		}while(!isValidPlay(newPlay));
+
+		return newPlay;
+
 	}
+private:
+	bool first;
 };
 
 class Agent: public Player{
