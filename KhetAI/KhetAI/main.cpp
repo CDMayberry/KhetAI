@@ -45,6 +45,20 @@ int main() {
 	gm.intialize(*p1, *p2, board);
 	gm.run();
 
+<<<<<<< HEAD
+=======
+	GameMaster gm(true);
+	Board board("1");
+	Human p1(&board, true);
+	Human p2(&board, false);
+	gm.intialize(p1, p2, board);
+	gm.run();
+
+
+
+	//Board test("1");
+	//test.PrintBoard();
+>>>>>>> 5339e6294d77c44c87fbb76a133250baefd6dfc4
 
 	system("pause");
 	return 0;
