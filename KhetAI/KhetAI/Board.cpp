@@ -140,20 +140,20 @@ Impact Board::TraceLaser(int player) {
 	//Player 1 is on top
 	if(player == 1) {
 		direction = DOWN;
-		xCoord++;
+		yCoord++;
 	}
 	else {
 		direction = UP;
-		xCoord--;
+		yCoord--;
 	}
 
 	while(!terminate) {
 		//Switch based on direction of the beam, so the coords can be updated
 		switch(direction) {
-			case UP:		xCoord--;	break;
-			case RIGHT:		yCoord++;	break;
-			case DOWN:		xCoord++;	break;
-			case LEFT:		yCoord--;	break;
+			case UP:		yCoord--;	break;
+			case RIGHT:		xCoord++;	break;
+			case DOWN:		yCoord++;	break;
+			case LEFT:		xCoord--;	break;
 			default:					break;
 		}
 		//Updates direction -or- returns based on where laser is looking at
