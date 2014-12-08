@@ -221,8 +221,8 @@ vector<Play> Board::listAllPlays(int player){ //mmmmmm. nothing like quad-nested
 	player++; //to make it match with the way it works in board
 		//find all plays that can be made by a player
 	vector<Play> possiblePlays;
-	for(int i=0; i<12; i++){ //x
-		for(int j=0; j<10; j++){ //y
+	for(int j=0; j<12; j++){ //x
+		for(int i=0; i<10; i++){ //y
 				// if it's the correct player
 			if(board[i][j]->getOwner() == player){
 					//make a play for both rotation options

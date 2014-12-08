@@ -22,13 +22,17 @@ using std::endl;
 
 int main() {
 
-	//GameMaster gm;
-	//Board board;
-	//Player p1;
-	//Player p2;
+	GameMaster gm(true);
+	Board board("1");
+	Human p1(&board, true);
+	Human p2(&board, false);
+	gm.intialize(p1, p2, board);
+	gm.run();
 
-	Board test("1");
-	test.PrintBoard();
+
+
+	//Board test("1");
+	//test.PrintBoard();
 
 	system("pause");
 	return 0;

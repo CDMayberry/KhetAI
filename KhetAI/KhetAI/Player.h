@@ -28,7 +28,7 @@ public:
 	Play* getNextPlay(){
 
 		auto isNumber = [=](string s)->bool{
-			for(int i=0; i<s.size(); i++){
+			for(size_t i=0; i<s.size(); i++){
 				if(!isdigit(s[i])){
 					return false;
 				}
@@ -38,7 +38,7 @@ public:
 
 		auto isValidPlay = [=](Play* p)->bool{
 			vector<Play> pList = gameBoard->listAllPlays(first);
-			for(int i=0; i<pList.size(); i++){
+			for(size_t i=0; i<pList.size(); i++){
 				if(*p == pList[i]){
 					return true;
 				}
@@ -67,23 +67,22 @@ public:
 			do{
 				cout << "Please enter your play type (0 for move, 1 for rotate):" << endl;
 				cin >> playType;
-			}while(!isNumber(playType) || stoi(playType) != 0 || stoi(playType) != 1);
-			if(stoi(playType) == 0){
+			}while(!isNumber(playType) || (stoi(playType) != 0 && stoi(playType) != 1));
+			if(stoi(playType) == 1){
 				do{
 					cout << "Please enter the direction (0 for CW, 1 for CCW):" << endl;
 					cin >> moveOrRoteNum;
-				}while(!isNumber(moveOrRoteNum) || stoi(moveOrRoteNum) != 0 || stoi(moveOrRoteNum) != 1);
-			}else if(stoi(playType) == 1){
+				}while(!isNumber(moveOrRoteNum) || ( stoi(moveOrRoteNum) != 0 && stoi(moveOrRoteNum) != 1));
+			}else if(stoi(playType) == 0){
 				do{
 					cout << "Please enter the direction (0 for up, 1 for up-right, 2 for right, ..., 7 for left-up):" << endl;
 					cin >> moveOrRoteNum;
-				}while(!isNumber(moveOrRoteNum) || stoi(moveOrRoteNum) != 0 || stoi(moveOrRoteNum) != 1);
+				}while(!isNumber(moveOrRoteNum) || ( stoi(moveOrRoteNum) != 0 && stoi(moveOrRoteNum) != 1));
 			}
 			*newPlay = Play(stoi(xCoord), stoi(yCoord), stoi(playType), stoi(moveOrRoteNum));
 		}while(!isValidPlay(newPlay));
 
 		return newPlay;
-
 	}
 private:
 	bool first;
@@ -125,21 +124,21 @@ protected:
 				//generate a list of all possible plays and use that to make all the new worlds
 				if(depth < HORIZON){
 					vector<Play> possiblePlays = thisWorld.listAllPlays(color);
-					TreeNode firstNode(thisWorld.makePlay(possiblePlays[0]), possiblePlays[0], this);
+					TreeNode firstNode(thisWorld.makePlay(possiblePlays[0], color), possiblePlays[0], this);
 					alphabeta = firstNode.getHeuristicValue();
-					for(int i=0; i<possiblePlays.size(); i++){ //for each play
-						Board newWorld = thisWorld.makePlay(possiblePlays[i]);
+					for(size_t i=0; i<possiblePlays.size(); i++){ //for each play
+						Board newWorld = thisWorld.makePlay(possiblePlays[i], color);
 						TreeNode* newNode = new TreeNode(newWorld, possiblePlays[i], this);
 						children.push_back(newNode);
 							//this is the pruning part. Stops expanding a node if it would never be chosen optimally
 						if(ab == 1 && parent != nullptr && parent->parent != nullptr){ //if this node is < a value on the parent's level, then return it and quit expanding this branch
-							for(int j=0; j < parent->parent->children.size(); j++){
+							for(size_t j=0; j < parent->parent->children.size(); j++){
 								if(newNode->getHeuristicValue() < parent->parent->children[j]->alphabeta){
 									return alphabeta;
 								}
 							}
 						}else if(ab == 0 && parent != nullptr && parent->parent != nullptr){ //if this node is > a value of the paren'ts level, then return it and quit expanding this branch
-							for(int j=0; j < parent->parent->children.size(); j++){
+							for(size_t j=0; j < parent->parent->children.size(); j++){
 								if(newNode->getHeuristicValue() > parent->parent->children[j]->alphabeta){
 									return alphabeta;
 								}
@@ -169,7 +168,7 @@ protected:
 			Play thisPlay; //the play that lead to this world
 			Board thisWorld; //the game world of this node
 			bool ab; //0 == alpha, 1 == beta
-			int alphabeta; //the alpha or beta value of the node
+			float alphabeta; //the alpha or beta value of the node
 			int color;
 			int depth;
 		};
@@ -179,9 +178,9 @@ protected:
 				//do not evaluate prunable branches
 			root->expand(root);
 				//select the Play that generates a world with the highest value from among the immediate children of the root.
-			int bestHeuristic = 0;
+			float bestHeuristic = 0;
 			int bestHeuristicIndex = 0;
-			for(int i=0; i<root->children.size(); i++){
+			for(size_t i=0; i<root->children.size(); i++){
 				if(root->children[i]->alphabeta > bestHeuristic){
 					bestHeuristic = root->children[i]->alphabeta;
 					bestHeuristicIndex = i;
