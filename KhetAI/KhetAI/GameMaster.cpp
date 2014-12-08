@@ -13,8 +13,8 @@ GameMaster::GameMaster(string str, bool loud) {
 	noise = loud;								//How talkative it is (If we move to DirectX this won't be needed)
 	isRunning = false;
 	world = new Board(str);
-	p1 = new Human(world);
-	p2 = new Human(world);
+	p1 = new Human(world, true);
+	p2 = new Human(world, false);
 }
 
 GameMaster::~GameMaster() {
@@ -31,6 +31,8 @@ bool GameMaster::intialize(Player& player1, Player& player2, Board& b) { //Sets 
 void GameMaster::run() { //Run the game
 	int x = 0;
 	while(isRunning) {
+
+		world->PrintBoard();
 
 		if(p1Turn) {		
 			Play* temp = p1->getNextPlay();					//Gets player choice
