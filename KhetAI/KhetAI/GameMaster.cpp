@@ -4,7 +4,19 @@ GameMaster::GameMaster(bool loud) {
 	p1Turn = true;								//Based upon rules, silver player moves first, and thus p1 is silver;
 	noise = loud;								//How talkative it is (If we move to DirectX this won't be needed)
 	isRunning = false;
+	p1 = new Human();
+	p2 = new Human();
 }
+
+GameMaster::GameMaster(string str, bool loud) {
+	p1Turn = true;								//Based upon rules, silver player moves first, and thus p1 is silver;
+	noise = loud;								//How talkative it is (If we move to DirectX this won't be needed)
+	isRunning = false;
+	world = new Board(str);
+	p1 = new Human(world);
+	p2 = new Human(world);
+}
+
 GameMaster::~GameMaster() {
 
 }
@@ -20,17 +32,16 @@ void GameMaster::run() { //Run the game
 	int x = 0;
 	while(isRunning) {
 
-		if(p1Turn) {
-			//event* ev = p1.takeTurn(world)	//Gets player choice
-			//world.update(ev);					//Updates world with player choice
-
+		if(p1Turn) {		
+			Play* temp = p1->getNextPlay();		//Gets player choice
+			world->makePlay(*temp, 1);				//Updates world with player choice
 			p1Turn = false;						//Switch turns
 		}
 		else {
-			//event* ev = p2.takeTurn(world)	//Gets player choice
-			//world.update(ev);					//Updatse world with player choice
-			x++;								//End of round, test only.
+			Play* temp = p2->getNextPlay();		//Gets player choice
+			world->makePlay(*temp, 2);				//Updates world with player choice
 			p1Turn = true;						//Switch turns
+			x++;								//End of round, test only.
 		}
 
 		if(x > 5) //Just making sure it runs

@@ -9,6 +9,7 @@ Purpose: To handle the interaction between player/player, player/ai, or ai/ai
 class GameMaster {
 public:
 	GameMaster(bool loud = false);
+	GameMaster(string str, bool loud = false);
 	~GameMaster();
 
 	bool intialize(Player& p1, Player& p2, Board& b);	//Initialize the game and return if it succeeded or not.
