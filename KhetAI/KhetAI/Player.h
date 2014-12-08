@@ -7,6 +7,8 @@ using namespace std;
 
 #include "Board.h"
 
+const int HORIZON = 5;
+
 class Player{
 public:
 	Player(){}
@@ -93,7 +95,6 @@ protected:
 	class AgentTree{
 		friend class Agent;
 		AgentTree(int c, Board* b){
-			HORIZON = 5;
 			Play* play = new Play(-1, -1, 0, 0); //the root gets a blank play because it is unimportant
 			root = new TreeNode(*b, *play, nullptr); //this is where the root is initialized
 			color = c;
@@ -116,6 +117,7 @@ protected:
 			}
 			float getHeuristicValue(){
 				//return the world's heuristic value from thisWorld
+				return 0;
 			}
 			float expand(TreeNode* p){ //the work happens here.
 				//generate the entire min-max play tree all the way down to the horizon to acquire alpha valued
@@ -196,7 +198,6 @@ protected:
 		Play* monteCarlo(){
 			
 		}
-		static int HORIZON;
 		int color;
 	};
 	AgentTree* tree;
