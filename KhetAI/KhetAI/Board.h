@@ -189,7 +189,7 @@ public:
 			board[x-1][y+1] = board[x][y];
 			break;
 		}
-		board[x][y] = new Piece(0, 176);
+		board[x][y] = new Piece(0, Empty);
 	}
 	void turn(Play p) {
 		int x = p.getX();						//THESE ARE REVERSED ON PURPOSE JASH
@@ -199,35 +199,47 @@ public:
 		switch(turn) {
 		case Play::CLOCKWISE:
 			switch(board[x][y]->getIcon()) {
-			case MirrorLU:
-				board[x][y]->setIcon(MirrorRU);
+			case 217:
+				board[x][y]->setIcon(192);
 				break;
-			case MirrorLD:
-				board[x][y]->setIcon(MirrorLU);
+			case 191:
+				board[x][y]->setIcon(217);
 				break;
-			case MirrorRD:
-				board[x][y]->setIcon(MirrorLD);
+			case 218:
+				board[x][y]->setIcon(191);
 				break;
-			case MirrorRU:
-				board[x][y]->setIcon(MirrorRD);
+			case 192:
+				board[x][y]->setIcon(218);
+				break;
+			case 47:
+				board[x][y]->setIcon(92);
+				break;
+			case 92:
+				board[x][y]->setIcon(47);
 				break;
 			}
 			break;
 
 		case Play::COUNTERCLOCKWISE:
 			switch(board[x][y]->getIcon()) {
-			case MirrorLU:
-				board[x][y]->setIcon(MirrorLD);
+			case 217:
+				board[x][y]->setIcon(191);
 				break;
-			case MirrorLD:
-				board[x][y]->setIcon(MirrorRD);
+			case 191:
+				board[x][y]->setIcon(218);
 				break;
-			case MirrorRD:
-				board[x][y]->setIcon(MirrorRU);
+			case 218:
+				board[x][y]->setIcon(192);
 				break;
-			case MirrorRU:
-				board[x][y]->setIcon(MirrorLU);
-				break;			
+			case 192:
+				board[x][y]->setIcon(217);
+				break;
+			case 47:
+				board[x][y]->setIcon(92);
+				break;
+			case 92:
+				board[x][y]->setIcon(47);
+				break;
 			}
 			break;
 		}
