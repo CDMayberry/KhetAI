@@ -39,7 +39,7 @@ public:
 		};
 
 		auto isValidPlay = [=](Play* p)->bool{
-			vector<Play> pList = gameBoard->listAllPlays(first);
+			vector<Play> pList = gameBoard->listAllPlays((first?0:1));
 			for(size_t i=0; i<pList.size(); i++){
 				if(*p == pList[i]){
 					return true;
@@ -81,7 +81,7 @@ public:
 					cin >> moveOrRoteNum;
 				}while(!isNumber(moveOrRoteNum) || (stoi(moveOrRoteNum) < 0 && stoi(moveOrRoteNum) >= 8));
 			}
-			*newPlay = Play(stoi(yCoord), stoi(xCoord), stoi(playType), stoi(moveOrRoteNum));
+			*newPlay = Play(stoi(xCoord), stoi(yCoord), stoi(playType), stoi(moveOrRoteNum));
 		}while(!isValidPlay(newPlay));
 
 		return newPlay;
@@ -94,9 +94,9 @@ class Agent: public Player{
 protected:
 	class AgentTree{
 		friend class Agent;
-		AgentTree(int c, Board* b){
+		AgentTree(int c, Board b){
 			Play* play = new Play(-1, -1, 0, 0); //the root gets a blank play because it is unimportant
-			root = new TreeNode(*b, *play, nullptr, c); //this is where the root is initialized
+			root = new TreeNode(b, *play, nullptr, c); //this is where the root is initialized
 			color = c;
 		}
 		class TreeNode{
@@ -127,12 +127,12 @@ protected:
 				//generate a list of all possible plays and use that to make all the new worlds
 				if(depth < HORIZON){
 					vector<Play> possiblePlays = thisWorld.listAllPlays(color);
+					//thisWorld.PrintBoard();
 					TreeNode firstNode(thisWorld.makePlay(possiblePlays[0], color+1), possiblePlays[0], this, color);
+					//thisWorld.PrintBoard();
 					alphabeta = firstNode.getHeuristicValue();
 					for(size_t i=0; i<possiblePlays.size(); i++){ //for each play
 						Board newWorld = thisWorld.makePlay(possiblePlays[i], color+1);
-						//newWorld.PrintBoard();
-						//system("pause");
 						TreeNode* newNode = new TreeNode(newWorld, possiblePlays[i], this, color);
 						children.push_back(newNode);
 							//this is the pruning part. Stops expanding a node if it would never be chosen optimally
@@ -207,7 +207,7 @@ protected:
 public:
 	Agent(){}
 	Agent(Board* board, bool first): Player(board){
-		tree = new AgentTree(((first)?0:1), board);
+		tree = new AgentTree(((first)?0:1), *board);
 	}
 	Play* getNextPlay(){
 		return tree->miniMax();

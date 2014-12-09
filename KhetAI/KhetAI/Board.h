@@ -95,8 +95,24 @@ public:
 //Constructors
 	//Default
 	Board();
+	//redef copy constructor
+	Board(const Board &b){
+		for(int i=0; i<12; i++){
+			for(int j=0; j<10; j++){
+				board[i][j] = new Piece(*b.board[i][j]);
+			}
+		}
+		filename = b.filename;
+	}
 	//Takes a file name as a string and creates a board object from it
 	Board(string file);
+	~Board(){
+		/*for(int i=0; i<12; i++){
+			for(int j=0; j<10; j++){
+				delete board[i][j];
+			}
+		}*/
+	}
 
 //Accessors
 	//Outputs the screen to the console
@@ -108,7 +124,7 @@ public:
 	//returns a version of the world after making a play
 	Board makePlay(Play p, int pTurn){
 			//apply the play to the board
-		Board temp = *this;
+		Board temp(*this);
 		if(p == Play::MOVE) {
 			temp.move(p);
 		}
