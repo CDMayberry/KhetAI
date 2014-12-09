@@ -338,7 +338,7 @@ float Board::EvaluateBoard(int player) {
 			return dis;
 	};
 
-	auto mannDistance = [=](pair<int,int> p) -> int {
+	auto mirrorDist = [=](pair<int,int> p) -> int {
 		vector<pair<int,int>> mirrors;
 		for(int i = 0; i < 12; i++) {
 			for(int j = 0; j < 10; j++) {
@@ -398,23 +398,23 @@ float Board::EvaluateBoard(int player) {
 							frontier.push_back(xyNode(x,y-1,UP,myNode.g + 1,myNode.g + 1 + mannDistance(x,y-1,xKing,yKing)));
 					}
 					if(x<12) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x+1,y,RIGHT,myNode.g + 10,myNode.g + 10 + mannDistance(x+1,y,xKing,yKing))) ==	evaluated.end() ) 
-							frontier.push_back(xyNode(x+1,y,RIGHT,myNode.g + 10,myNode.g + 10 + mannDistance(x+1,y,xKing,yKing)));
+						if(find(evaluated.begin(),evaluated.end(),xyNode(x+1,y,RIGHT,myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)),myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)) + mannDistance(x+1,y,xKing,yKing))) ==	evaluated.end() ) 
+							frontier.push_back(xyNode(x+1,y,RIGHT,myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)),myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)) + mannDistance(x+1,y,xKing,yKing)));
 					}
 					if(x>0) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x-1,y,LEFT,myNode.g + 10,myNode.g + 10 + mannDistance(x-1,y,xKing,yKing))) == evaluated.end() ) 
-							frontier.push_back(xyNode(x-1,y,LEFT,myNode.g + 10,myNode.g + 10 + mannDistance(x-1,y,xKing,yKing)));
+						if(find(evaluated.begin(),evaluated.end(),xyNode(x-1,y,LEFT,myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)),myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)) + mannDistance(x-1,y,xKing,yKing))) == evaluated.end() ) 
+							frontier.push_back(xyNode(x-1,y,LEFT,myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)),myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)) + mannDistance(x-1,y,xKing,yKing)));
 					}
 					break;
 				case RIGHT:
 					//push right,down,up
 					if(y<10) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x,y+1,DOWN,myNode.g + 10,myNode.g + 10 + mannDistance(x,y+1,xKing,yKing))) == evaluated.end() ) 
-						frontier.push_back(xyNode(x,y+1,DOWN,myNode.g + 10,myNode.g + 10 + mannDistance(x,y+1,xKing,yKing)));
+						if(find(evaluated.begin(),evaluated.end(),xyNode(x,y+1,DOWN,myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)),myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)) + mannDistance(x,y+1,xKing,yKing))) == evaluated.end() ) 
+						frontier.push_back(xyNode(x,y+1,DOWN,myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)),myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)) + mannDistance(x,y+1,xKing,yKing)));
 					}
 					if(y>0) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x,y-1,UP,myNode.g + 10,myNode.g + 10 + mannDistance(x,y-1,xKing,yKing))) == evaluated.end() ) 
-						frontier.push_back(xyNode(x,y-1,UP,myNode.g + 10,myNode.g + 10 + mannDistance(x,y-1,xKing,yKing)));
+						if(find(evaluated.begin(),evaluated.end(),xyNode(x,y-1,UP,myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)),myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)) + mannDistance(x,y-1,xKing,yKing))) == evaluated.end() ) 
+						frontier.push_back(xyNode(x,y-1,UP,myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)),myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)) + mannDistance(x,y-1,xKing,yKing)));
 					}
 					if(x<12) {
 						if(find(evaluated.begin(),evaluated.end(),xyNode(x+1,y,RIGHT,myNode.g + 1,myNode.g + 1 + mannDistance(x+1,y,xKing,yKing))) == evaluated.end() ) 
@@ -428,23 +428,23 @@ float Board::EvaluateBoard(int player) {
 						frontier.push_back(xyNode(x,y+1,DOWN,myNode.g + 1,myNode.g + 1 + mannDistance(x,y+1,xKing,yKing)));
 					}
 					if(x<12) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x+1,y,RIGHT,myNode.g + 10,myNode.g + 10 + mannDistance(x+1,y,xKing,yKing))) == evaluated.end() ) 
-						frontier.push_back(xyNode(x+1,y,RIGHT,myNode.g + 10,myNode.g + 10 + mannDistance(x+1,y,xKing,yKing)));
+						if(find(evaluated.begin(),evaluated.end(),xyNode(x+1,y,RIGHT,myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)),myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)) + mannDistance(x+1,y,xKing,yKing))) == evaluated.end() ) 
+						frontier.push_back(xyNode(x+1,y,RIGHT,myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)),myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)) + mannDistance(x+1,y,xKing,yKing)));
 					}
 					if(x>0) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x-1,y,LEFT,myNode.g + 10,myNode.g + 10 + mannDistance(x-1,y,xKing,yKing))) == evaluated.end() ) 
-						frontier.push_back(xyNode(x-1,y,LEFT,myNode.g + 10,myNode.g + 10 + mannDistance(x-1,y,xKing,yKing)));
+						if(find(evaluated.begin(),evaluated.end(),xyNode(x-1,y,LEFT,myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)),myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)) + mannDistance(x-1,y,xKing,yKing))) == evaluated.end() ) 
+						frontier.push_back(xyNode(x-1,y,LEFT,myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)),myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)) + mannDistance(x-1,y,xKing,yKing)));
 					}
 					break;
 				case LEFT:
 					//push left,up,down
 					if(y<10) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x,y+1,DOWN,myNode.g + 10,myNode.g + 10 + mannDistance(x,y+1,xKing,yKing)))	==	 evaluated.end() ) 
-						frontier.push_back(xyNode(x,y+1,DOWN,myNode.g + 10,myNode.g + 10 + mannDistance(x,y+1,xKing,yKing)));
+						if(find(evaluated.begin(),evaluated.end(),xyNode(x,y+1,DOWN,myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)),myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)) + mannDistance(x,y+1,xKing,yKing)))	==	 evaluated.end() ) 
+						frontier.push_back(xyNode(x,y+1,DOWN,myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)),myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)) + mannDistance(x,y+1,xKing,yKing)));
 					}
 					if(y>0) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x,y-1,UP,myNode.g + 10,myNode.g + 10 + mannDistance(x,y-1,xKing,yKing))) == evaluated.end() ) 
-						frontier.push_back(xyNode(x,y-1,UP,myNode.g + 10,myNode.g + 10 + mannDistance(x,y-1,xKing,yKing)));
+						if(find(evaluated.begin(),evaluated.end(),xyNode(x,y-1,UP,myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)),myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)) + mannDistance(x,y-1,xKing,yKing))) == evaluated.end() ) 
+						frontier.push_back(xyNode(x,y-1,UP,myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)),myNode.g + 1 + mirrorDist(pair<int,int>(myNode.x,myNode.y)) + mannDistance(x,y-1,xKing,yKing)));
 					}
 					if(x>0) {
 						if(find(evaluated.begin(),evaluated.end(),xyNode(x-1,y,LEFT,myNode.g + 1,myNode.g + 1 + mannDistance(x-1,y,xKing,yKing))) == evaluated.end() ) 
