@@ -36,19 +36,18 @@ void GameMaster::run() { //Run the game
 
 		//system("cls");
 		
-		
 		Play* temp = p1->getNextPlay();					//Gets player choice
 		*world = world->makePlay(*temp, 1);				//Updates world with player choice
-		cout << "Player one took a turn." << endl;
 		world->PrintBoard();
-		system("pause");
-
+		cout << "\nPlayer one took a turn.\n\n";
+		
 		Play* temp2 = p2->getNextPlay();					//Gets player choice
 		*world = world->makePlay(*temp2, 2);				//Updates world with player choice
-		cout << "Player two took a turn." << endl;
 		world->PrintBoard();
-		system("pause");
+		cout << "\nPlayer two took a turn.\n\n" << endl;
 		
+		system("pause");
+
 		//if(world.gameOver()) {
 			//isRunning = false;
 			//world.print()						//Or otherwise print somekind of final result
