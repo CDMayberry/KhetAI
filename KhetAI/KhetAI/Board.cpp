@@ -338,6 +338,25 @@ float Board::EvaluateBoard(int player) {
 			return dis;
 	};
 
+	auto mannDistance = [=](pair<int,int> p) -> int {
+		vector<pair<int,int>> mirrors;
+		for(int i = 0; i < 12; i++) {
+			for(int j = 0; j < 10; j++) {
+				if(board[i][j]->getIcon() == MirrorLD || board[i][j]->getIcon() == MirrorLU || board[i][j]->getIcon() == MirrorRD || board[i][j]->getIcon() == MirrorRU) 
+					mirrors.push_back(pair<int,int>(i,j));
+			}
+		}
+		int closestIndex = 0;
+		int smallestDist = mannDistance(mirrors[0].first,mirrors[0].second,p.first,p.second);
+		for(unsigned int i=0; i < mirrors.size(); i++) {
+			if(mannDistance(mirrors[i].first,mirrors[i].second,p.first,p.second < smallestDist)) {
+				smallestDist = mannDistance(mirrors[i].first,mirrors[i].second,p.first,p.second); 
+				closestIndex = i;
+			}
+		}
+		return mannDistance(mirrors[closestIndex].first,mirrors[closestIndex].second,p.first,p.second);
+	};
+	
 	auto aStar = [=](int xStart, int yStart, int xTarget, int yTarget) -> float {
 		vector<xyNode> evaluated;
 		vector<xyNode> frontier;
