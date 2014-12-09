@@ -7,7 +7,7 @@ using namespace std;
 
 #include "Board.h"
 
-const int HORIZON = 3;
+const int HORIZON = 2;
 
 class Player{
 public:
