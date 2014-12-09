@@ -42,23 +42,26 @@ bool GameMaster::run() { //Run the game
 		world->PrintBoard();
 		cout << "\nPlayer one took a turn.\n\n";
 		
-		//checks if the game is finished
-		if(world->isFinished()){
-			cout << "Player one won! Congratulation, the story is happy end." << endl;
-			return 0;
-		}
+		////checks if the game is finished
+		//if(world->isFinished()){
+		//	cout << "Player one won! Congratulation, the story is happy end." << endl;
+		//	return 0;
+		//}
 
 		Play* temp2 = p2->getNextPlay(world);					//Gets player choice
 		*world = world->makePlay(*temp2, 2);				//Updates world with player choice
 		world->PrintBoard();
 		cout << "\nPlayer two took a turn.\n\n" << endl;
 		
-		system("pause");
+		//system("pause");
 
-		//checks if the game is finished
-		if(world->isFinished()){
-			cout << "Player two won! Congratulation, the story is happy end." << endl;
-			return 1;
-		}
+		////checks if the game is finished
+		//if(world->isFinished()){
+		//	cout << "Player two won! Congratulation, the story is happy end." << endl;
+		//	return 1;
+		//}
+
+		
 	}
+	return true;
 }

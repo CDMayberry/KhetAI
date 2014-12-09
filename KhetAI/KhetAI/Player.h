@@ -7,7 +7,7 @@ using namespace std;
 
 #include "Board.h"
 
-const int HORIZON = 2;
+const int HORIZON = 3;
 
 class Player{
 public:
@@ -129,9 +129,7 @@ protected:
 				//generate a list of all possible plays and use that to make all the new worlds
 				if(depth < HORIZON){
 					vector<Play> possiblePlays = thisWorld.listAllPlays(color);
-					//thisWorld.PrintBoard();
 					TreeNode firstNode(thisWorld.makePlay(possiblePlays[0], color+1), possiblePlays[0], this, color);
-					//thisWorld.PrintBoard();
 					alphabeta = firstNode.getHeuristicValue();
 					for(size_t i=0; i<possiblePlays.size(); i++){ //for each play
 						Board newWorld = thisWorld.makePlay(possiblePlays[i], color+1);

@@ -321,7 +321,7 @@ float Board::EvaluateBoard(int player) {
 			}
 		}
 	}
-	
+
 	//get which direction to start
 	if(player == 1) {
 		direction = DOWN;
@@ -341,7 +341,6 @@ float Board::EvaluateBoard(int player) {
 	auto aStar = [=](int xStart, int yStart, int xTarget, int yTarget) -> float {
 		vector<xyNode> evaluated;
 		vector<xyNode> frontier;
-		frontier.push_back(xyNode(xStart,yStart,direction,0,mannDistance(xStart,yStart,xKing,yKing)));
 		
 		float runningCost = 0;
 		int x = xStart;
@@ -349,8 +348,13 @@ float Board::EvaluateBoard(int player) {
 		int cost = 0;
 		int indexMin = 0;
 		
+		if(player == 1){
+			frontier.push_back(xyNode(xStart,yStart + 1,direction,0,mannDistance(xStart,yStart,xKing,yKing)));
+		}else{
+			frontier.push_back(xyNode(xStart,yStart - 1,direction,0,mannDistance(xStart,yStart,xKing,yKing)));
+		}
 
-		while(frontier.size() > 0) {
+		while(frontier.size() > 0 && frontier.size() < 120) {
 
 			if(frontier.size() > 1) {
 				//Search the frontier for the minimum cost
@@ -369,67 +373,70 @@ float Board::EvaluateBoard(int player) {
 			xyNode myNode(frontier[indexMin]);
 			frontier.erase(frontier.begin() + indexMin);
 			evaluated.push_back(myNode);
-
+			/*
+			cout << frontier.size() << " ";
+			system("pause");
+			*/
 			//Push on new neighbors
 			switch(myNode.direction) {
 				case UP:
 					//push up,right,left
-					if(y>0) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x,y-1,UP,myNode.g + 1,myNode.g + 1 + mannDistance(x,y-1,xKing,yKing))) == evaluated.end() ) 
-							frontier.push_back(xyNode(x,y-1,UP,myNode.g + 1,myNode.g + 1 + mannDistance(x,y-1,xKing,yKing)));
+					if(myNode.y>1) {
+						if(find(evaluated.begin(),evaluated.end(),xyNode(myNode.x,myNode.y-1,UP,myNode.g + 1,myNode.g + 1 + mannDistance(myNode.x,myNode.y-1,xKing,yKing))) == evaluated.end() ) 
+							frontier.push_back(xyNode(myNode.x,myNode.y-1,UP,myNode.g + 1,myNode.g + 1 + mannDistance(myNode.x,myNode.y-1,xKing,yKing)));
 					}
-					if(x<12) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x+1,y,RIGHT,myNode.g + 10,myNode.g + 10 + mannDistance(x+1,y,xKing,yKing))) ==	evaluated.end() ) 
-							frontier.push_back(xyNode(x+1,y,RIGHT,myNode.g + 10,myNode.g + 10 + mannDistance(x+1,y,xKing,yKing)));
+					if(myNode.x<10) {
+						if(find(evaluated.begin(),evaluated.end(),xyNode(myNode.x+1,myNode.y,RIGHT,myNode.g + 10,myNode.g + 10 + mannDistance(myNode.x+1,myNode.y,xKing,yKing))) ==	evaluated.end() ) 
+							frontier.push_back(xyNode(myNode.x+1,myNode.y,RIGHT,myNode.g + 10,myNode.g + 10 + mannDistance(myNode.x+1,myNode.y,xKing,yKing)));
 					}
-					if(x>0) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x-1,y,LEFT,myNode.g + 10,myNode.g + 10 + mannDistance(x-1,y,xKing,yKing))) == evaluated.end() ) 
-							frontier.push_back(xyNode(x-1,y,LEFT,myNode.g + 10,myNode.g + 10 + mannDistance(x-1,y,xKing,yKing)));
+					if(myNode.x>1) {
+						if(find(evaluated.begin(),evaluated.end(),xyNode(myNode.x-1,myNode.y,LEFT,myNode.g + 10,myNode.g + 10 + mannDistance(myNode.x-1,myNode.y,xKing,yKing))) == evaluated.end() ) 
+							frontier.push_back(xyNode(myNode.x-1,myNode.y,LEFT,myNode.g + 10,myNode.g + 10 + mannDistance(myNode.x-1,myNode.y,xKing,yKing)));
 					}
 					break;
 				case RIGHT:
 					//push right,down,up
-					if(y<10) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x,y+1,DOWN,myNode.g + 10,myNode.g + 10 + mannDistance(x,y+1,xKing,yKing))) == evaluated.end() ) 
-						frontier.push_back(xyNode(x,y+1,DOWN,myNode.g + 10,myNode.g + 10 + mannDistance(x,y+1,xKing,yKing)));
+					if(myNode.y<8) {
+						if(find(evaluated.begin(),evaluated.end(),xyNode(myNode.x,myNode.y+1,DOWN,myNode.g + 10,myNode.g + 10 + mannDistance(myNode.x,myNode.y+1,xKing,yKing))) == evaluated.end() ) 
+						frontier.push_back(xyNode(myNode.x,myNode.y+1,DOWN,myNode.g + 10,myNode.g + 10 + mannDistance(myNode.x,myNode.y+1,xKing,yKing)));
 					}
-					if(y>0) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x,y-1,UP,myNode.g + 10,myNode.g + 10 + mannDistance(x,y-1,xKing,yKing))) == evaluated.end() ) 
-						frontier.push_back(xyNode(x,y-1,UP,myNode.g + 10,myNode.g + 10 + mannDistance(x,y-1,xKing,yKing)));
+					if(myNode.y>1) {
+						if(find(evaluated.begin(),evaluated.end(),xyNode(myNode.x,myNode.y-1,UP,myNode.g + 10,myNode.g + 10 + mannDistance(myNode.x,myNode.y-1,xKing,yKing))) == evaluated.end() ) 
+						frontier.push_back(xyNode(myNode.x,myNode.y-1,UP,myNode.g + 10,myNode.g + 10 + mannDistance(myNode.x,myNode.y-1,xKing,yKing)));
 					}
-					if(x<12) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x+1,y,RIGHT,myNode.g + 1,myNode.g + 1 + mannDistance(x+1,y,xKing,yKing))) == evaluated.end() ) 
-						frontier.push_back(xyNode(x+1,y,RIGHT,myNode.g + 1,myNode.g + 1 + mannDistance(x+1,y,xKing,yKing)));
+					if(myNode.x<10) {
+						if(find(evaluated.begin(),evaluated.end(),xyNode(myNode.x+1,myNode.y,RIGHT,myNode.g + 1,myNode.g + 1 + mannDistance(myNode.x+1,myNode.y,xKing,yKing))) == evaluated.end() ) 
+						frontier.push_back(xyNode(myNode.x+1,myNode.y,RIGHT,myNode.g + 1,myNode.g + 1 + mannDistance(myNode.x+1,myNode.y,xKing,yKing)));
 					}
 					break;
 				case DOWN:
 					//push down,left,right
-					if(y<10) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x,y+1,DOWN,myNode.g + 1,myNode.g + 1 + mannDistance(x,y+1,xKing,yKing))) == evaluated.end() ) 
-						frontier.push_back(xyNode(x,y+1,DOWN,myNode.g + 1,myNode.g + 1 + mannDistance(x,y+1,xKing,yKing)));
+					if(myNode.y>1) {
+						if(find(evaluated.begin(),evaluated.end(),xyNode(myNode.x,myNode.y+1,DOWN,myNode.g + 1,myNode.g + 1 + mannDistance(myNode.x,myNode.y+1,xKing,yKing))) == evaluated.end() ) 
+						frontier.push_back(xyNode(myNode.x,myNode.y+1,DOWN,myNode.g + 1,myNode.g + 1 + mannDistance(myNode.x,myNode.y+1,xKing,yKing)));
 					}
-					if(x<12) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x+1,y,RIGHT,myNode.g + 10,myNode.g + 10 + mannDistance(x+1,y,xKing,yKing))) == evaluated.end() ) 
-						frontier.push_back(xyNode(x+1,y,RIGHT,myNode.g + 10,myNode.g + 10 + mannDistance(x+1,y,xKing,yKing)));
+					if(myNode.x<10) {
+						if(find(evaluated.begin(),evaluated.end(),xyNode(myNode.x+1,myNode.y,RIGHT,myNode.g + 10,myNode.g + 10 + mannDistance(myNode.x+1,myNode.y,xKing,yKing))) == evaluated.end() ) 
+						frontier.push_back(xyNode(myNode.x+1,myNode.y,RIGHT,myNode.g + 10,myNode.g + 10 + mannDistance(myNode.x+1,myNode.y,xKing,yKing)));
 					}
-					if(x>0) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x-1,y,LEFT,myNode.g + 10,myNode.g + 10 + mannDistance(x-1,y,xKing,yKing))) == evaluated.end() ) 
-						frontier.push_back(xyNode(x-1,y,LEFT,myNode.g + 10,myNode.g + 10 + mannDistance(x-1,y,xKing,yKing)));
+					if(myNode.x>1) {
+						if(find(evaluated.begin(),evaluated.end(),xyNode(myNode.x-1,myNode.y,LEFT,myNode.g + 10,myNode.g + 10 + mannDistance(myNode.x-1,myNode.y,xKing,yKing))) == evaluated.end() ) 
+						frontier.push_back(xyNode(myNode.x-1,myNode.y,LEFT,myNode.g + 10,myNode.g + 10 + mannDistance(myNode.x-1,myNode.y,xKing,yKing)));
 					}
 					break;
 				case LEFT:
 					//push left,up,down
-					if(y<10) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x,y+1,DOWN,myNode.g + 10,myNode.g + 10 + mannDistance(x,y+1,xKing,yKing)))	==	 evaluated.end() ) 
-						frontier.push_back(xyNode(x,y+1,DOWN,myNode.g + 10,myNode.g + 10 + mannDistance(x,y+1,xKing,yKing)));
+					if(myNode.y<8) {
+						if(find(evaluated.begin(),evaluated.end(),xyNode(x,y+1,DOWN,myNode.g + 10,myNode.g + 10 + mannDistance(myNode.x,myNode.y+1,xKing,yKing)))	==	 evaluated.end() ) 
+						frontier.push_back(xyNode(myNode.x,myNode.y+1,DOWN,myNode.g + 10,myNode.g + 10 + mannDistance(myNode.x,myNode.y+1,xKing,yKing)));
 					}
-					if(y>0) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x,y-1,UP,myNode.g + 10,myNode.g + 10 + mannDistance(x,y-1,xKing,yKing))) == evaluated.end() ) 
-						frontier.push_back(xyNode(x,y-1,UP,myNode.g + 10,myNode.g + 10 + mannDistance(x,y-1,xKing,yKing)));
+					if(myNode.y>1) {
+						if(find(evaluated.begin(),evaluated.end(),xyNode(myNode.x,myNode.y-1,UP,myNode.g + 10,myNode.g + 10 + mannDistance(myNode.x,myNode.y-1,xKing,yKing))) == evaluated.end() ) 
+						frontier.push_back(xyNode(myNode.x,myNode.y-1,UP,myNode.g + 10,myNode.g + 10 + mannDistance(myNode.x,myNode.y-1,xKing,yKing)));
 					}
-					if(x>0) {
-						if(find(evaluated.begin(),evaluated.end(),xyNode(x-1,y,LEFT,myNode.g + 1,myNode.g + 1 + mannDistance(x-1,y,xKing,yKing))) == evaluated.end() ) 
-						frontier.push_back(xyNode(x-1,y,LEFT,myNode.g + 1,myNode.g + 1 + mannDistance(x-1,y,xKing,yKing)));
+					if(myNode.x>1) {
+						if(find(evaluated.begin(),evaluated.end(),xyNode(myNode.x-1,myNode.y,LEFT,myNode.g + 1,myNode.g + 1 + mannDistance(myNode.x-1,myNode.y,xKing,yKing))) == evaluated.end() ) 
+						frontier.push_back(xyNode(myNode.x-1,myNode.y,LEFT,myNode.g + 1,myNode.g + 1 + mannDistance(myNode.x-1,myNode.y,xKing,yKing)));
 					}
 					break;
 				default: break;
