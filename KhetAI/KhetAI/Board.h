@@ -173,7 +173,7 @@ public:
 			board[x-1][y+1] = board[x][y];
 			break;
 		}
-		board[x][y] = new Piece(0, 176);
+		board[x][y] = new Piece(0, Empty);
 	}
 	void turn(Play p) {
 		int y = p.getX();						//THESE ARE REVERSED ON PURPOSE JASH
@@ -195,6 +195,12 @@ public:
 			case 192:
 				board[x][y]->setIcon(218);
 				break;
+			case 47:
+				board[x][y]->setIcon(92);
+				break;
+			case 92:
+				board[x][y]->setIcon(47);
+				break;
 			}
 			break;
 
@@ -211,7 +217,13 @@ public:
 				break;
 			case 192:
 				board[x][y]->setIcon(217);
-				break;			
+				break;
+			case 47:
+				board[x][y]->setIcon(92);
+				break;
+			case 92:
+				board[x][y]->setIcon(47);
+				break;
 			}
 			break;
 		}
