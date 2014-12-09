@@ -192,41 +192,41 @@ public:
 		board[x][y] = new Piece(0, 176);
 	}
 	void turn(Play p) {
-		int y = p.getX();						//THESE ARE REVERSED ON PURPOSE JASH
-		int x = p.getY();						//THESE ARE REVERSED ON PURPOSE RAN      //...but it doent werk
+		int x = p.getX();						//THESE ARE REVERSED ON PURPOSE JASH
+		int y = p.getY();						//THESE ARE REVERSED ON PURPOSE RAN      //...but it doent werk
 		int turn = p.getTurn();
 
 		switch(turn) {
 		case Play::CLOCKWISE:
 			switch(board[x][y]->getIcon()) {
-			case 217:
-				board[x][y]->setIcon(192);
+			case MirrorLU:
+				board[x][y]->setIcon(MirrorRU);
 				break;
-			case 191:
-				board[x][y]->setIcon(217);
+			case MirrorLD:
+				board[x][y]->setIcon(MirrorLU);
 				break;
-			case 218:
-				board[x][y]->setIcon(191);
+			case MirrorRD:
+				board[x][y]->setIcon(MirrorLD);
 				break;
-			case 192:
-				board[x][y]->setIcon(218);
+			case MirrorRU:
+				board[x][y]->setIcon(MirrorRD);
 				break;
 			}
 			break;
 
 		case Play::COUNTERCLOCKWISE:
 			switch(board[x][y]->getIcon()) {
-			case 217:
-				board[x][y]->setIcon(191);
+			case MirrorLU:
+				board[x][y]->setIcon(MirrorLD);
 				break;
-			case 191:
-				board[x][y]->setIcon(218);
+			case MirrorLD:
+				board[x][y]->setIcon(MirrorRD);
 				break;
-			case 218:
-				board[x][y]->setIcon(192);
+			case MirrorRD:
+				board[x][y]->setIcon(MirrorRU);
 				break;
-			case 192:
-				board[x][y]->setIcon(217);
+			case MirrorRU:
+				board[x][y]->setIcon(MirrorLU);
 				break;			
 			}
 			break;
