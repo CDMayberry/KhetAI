@@ -15,7 +15,7 @@ public:
 	Player(Board* b){
 		gameBoard = b;
 	}
-	virtual Play* getNextPlay() = 0;
+	virtual Play* getNextPlay(Board* b) = 0;
 protected:
 	Board* gameBoard;
 };
@@ -27,7 +27,9 @@ public:
 			
 	}
 		//this function gets valid play inputs from a human player via the console. 
-	Play* getNextPlay(){
+	Play* getNextPlay(Board* b){
+
+		gameBoard = b;
 
 		auto isNumber = [=](string s)->bool{
 			for(size_t i=0; i<s.size(); i++){
@@ -209,7 +211,12 @@ public:
 	Agent(Board* board, bool first): Player(board){
 		tree = new AgentTree(((first)?0:1), *board);
 	}
-	Play* getNextPlay(){
+	Play* getNextPlay(Board* b){
+		Board temp(*b);
+		*gameBoard = temp;
+		int tcolor = tree->color;
+		delete tree;
+		tree = new AgentTree(tcolor, *gameBoard);
 		return tree->miniMax();
 	}
 private:
