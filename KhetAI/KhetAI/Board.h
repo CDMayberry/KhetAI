@@ -140,6 +140,20 @@ public:
 	float EvaluateBoard(int player);
 	//Piece* getBoard() {return board[10][12];}
 
+	bool isFinished(){
+		int kings = 0;
+		for(int i=0; i<12; i++){
+			for(int j=0; j<10; j++){
+				if(board[i][j]->getIcon() == King){
+					kings++;
+				}
+			}
+		}
+		if(kings == 1){
+			return true;
+		}
+	}
+
 	void killer(Impact kill) {
 		int x = kill.getLoc().first;
 		int y = kill.getLoc().second;

@@ -28,7 +28,8 @@ bool GameMaster::intialize(Player& player1, Player& player2, Board& b) { //Sets 
 	isRunning = true;	//Game can begin now!
 	return true;
 }
-void GameMaster::run() { //Run the game
+
+bool GameMaster::run() { //Run the game
 	
 	world->PrintBoard();
 
@@ -36,21 +37,28 @@ void GameMaster::run() { //Run the game
 
 		//system("cls");
 		
-		Play* temp = p1->getNextPlay();					//Gets player choice
+		Play* temp = p1->getNextPlay(world);					//Gets player choice
 		*world = world->makePlay(*temp, 1);				//Updates world with player choice
 		world->PrintBoard();
 		cout << "\nPlayer one took a turn.\n\n";
 		
-		Play* temp2 = p2->getNextPlay();					//Gets player choice
+		//checks if the game is finished
+		if(world->isFinished()){
+			cout << "Player one won! Congratulation, the story is happy end." << endl;
+			return 0;
+		}
+
+		Play* temp2 = p2->getNextPlay(world);					//Gets player choice
 		*world = world->makePlay(*temp2, 2);				//Updates world with player choice
 		world->PrintBoard();
 		cout << "\nPlayer two took a turn.\n\n" << endl;
 		
 		system("pause");
 
-		//if(world.gameOver()) {
-			//isRunning = false;
-			//world.print()						//Or otherwise print somekind of final result
-		//}
+		//checks if the game is finished
+		if(world->isFinished()){
+			cout << "Player two won! Congratulation, the story is happy end." << endl;
+			return 1;
+		}
 	}
 }

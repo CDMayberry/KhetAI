@@ -13,7 +13,7 @@ public:
 	~GameMaster();
 
 	bool intialize(Player& p1, Player& p2, Board& b);	//Initialize the game and return if it succeeded or not.
-	void run();			//Run the game.
+	bool run();			//Run the game.
 	void draw();
 
 private:
