@@ -192,8 +192,8 @@ public:
 		board[x][y] = new Piece(0, Empty);
 	}
 	void turn(Play p) {
-		int y = p.getX();						//THESE ARE REVERSED ON PURPOSE JASH
-		int x = p.getY();						//THESE ARE REVERSED ON PURPOSE RAN      //...but it doent werk
+		int x = p.getX();						//THESE ARE REVERSED ON PURPOSE JASH
+		int y = p.getY();						//THESE ARE REVERSED ON PURPOSE RAN      //...but it doent werk
 		int turn = p.getTurn();
 
 		switch(turn) {
