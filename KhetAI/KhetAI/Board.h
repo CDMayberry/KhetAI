@@ -95,8 +95,24 @@ public:
 //Constructors
 	//Default
 	Board();
+	//redef copy constructor
+	Board(const Board &b){
+		for(int i=0; i<12; i++){
+			for(int j=0; j<10; j++){
+				board[i][j] = new Piece(*b.board[i][j]);
+			}
+		}
+		filename = b.filename;
+	}
 	//Takes a file name as a string and creates a board object from it
 	Board(string file);
+	~Board(){
+		/*for(int i=0; i<12; i++){
+			for(int j=0; j<10; j++){
+				delete board[i][j];
+			}
+		}*/
+	}
 
 //Accessors
 	//Outputs the screen to the console
@@ -108,7 +124,7 @@ public:
 	//returns a version of the world after making a play
 	Board makePlay(Play p, int pTurn){
 			//apply the play to the board
-		Board temp = *this;
+		Board temp(*this);
 		if(p == Play::MOVE) {
 			temp.move(p);
 		}
@@ -173,11 +189,11 @@ public:
 			board[x-1][y+1] = board[x][y];
 			break;
 		}
-		board[x][y] = new Piece(0, 176);
+		board[x][y] = new Piece(0, Empty);
 	}
 	void turn(Play p) {
-		int y = p.getX();						//THESE ARE REVERSED ON PURPOSE JASH
-		int x = p.getY();						//THESE ARE REVERSED ON PURPOSE RAN      //...but it doent werk
+		int x = p.getX();						//THESE ARE REVERSED ON PURPOSE JASH
+		int y = p.getY();						//THESE ARE REVERSED ON PURPOSE RAN      //...but it doent werk
 		int turn = p.getTurn();
 
 		switch(turn) {
@@ -195,6 +211,12 @@ public:
 			case 192:
 				board[x][y]->setIcon(218);
 				break;
+			case 47:
+				board[x][y]->setIcon(92);
+				break;
+			case 92:
+				board[x][y]->setIcon(47);
+				break;
 			}
 			break;
 
@@ -211,7 +233,13 @@ public:
 				break;
 			case 192:
 				board[x][y]->setIcon(217);
-				break;			
+				break;
+			case 47:
+				board[x][y]->setIcon(92);
+				break;
+			case 92:
+				board[x][y]->setIcon(47);
+				break;
 			}
 			break;
 		}

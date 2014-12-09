@@ -208,6 +208,7 @@ Impact Board::TraceLaser(int player) {
 
 	}
 }
+
 vector<Play> Board::listAllPlays(int player){ //mmmmmm. nothing like quad-nested for loops. :)
 	player++; //to make it match with the way it works in board
 		//find all plays that can be made by a player
@@ -217,8 +218,12 @@ vector<Play> Board::listAllPlays(int player){ //mmmmmm. nothing like quad-nested
 				// if it's the correct player
 			if(board[i][j]->getOwner() == player && board[i][j]->getIcon() != Laser){
 					//make a play for both rotation options
-				possiblePlays.push_back(Play(i, j, 1, Play::CLOCKWISE));
-				possiblePlays.push_back(Play(i, j, 1, Play::COUNTERCLOCKWISE));
+				if(board[i][j]->getIcon() != King && board[i][j]->getIcon() != Blocker){
+					if(board[i][j]->getIcon() != DMirrorFSlash && board[i][j]->getIcon() != DMirrorBSlash){
+						possiblePlays.push_back(Play(i, j, 1, Play::CLOCKWISE));
+					}
+					possiblePlays.push_back(Play(i, j, 1, Play::COUNTERCLOCKWISE));
+				}
 					//make a play for all available movement options
 				for(int k=-1; k<=1; k++){
 					for(int l=-1; l<=1; l++){
